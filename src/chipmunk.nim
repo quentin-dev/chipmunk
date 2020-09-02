@@ -23,10 +23,16 @@ type
         CPU*: CPU
             ## The CPU
 
+proc init*(c: var CPU) =
+    ## Initialize the program counter
+    
+    c.pc = 0x200
+    info(fmt"Initialized CPU program counter to {c.pc:#X}")
+
 proc load_rom*(c: var Chip8, path: string) =
     ## Loads the rom at the specified path into CHIP-8 RAM
 
-    info(fmt"Trying to load: {path}")
+    info(fmt"Going to load rom {path}")
 
     let romSize = getFileSize(path)
     doAssert int(romSize) < (4096 - 0x200)
@@ -34,10 +40,14 @@ proc load_rom*(c: var Chip8, path: string) =
     let rom = newFileStream(path, fmRead)
     discard rom.readData(addr(c.memory[0x200]), int(romSize))
 
+    info(fmt"Loaded rom {path} into CHIP-8 RAM")
+
 var logger = newConsoleLogger(fmtStr="[$time] - $levelname: ")
 addHandler(logger)
 
-var plop: Chip8
+var machine: Chip8
 
-let path = (if paramCount() > 0: paramStr(1) else: "./roms/INVADERS")
-plop.load_rom(path)
+machine.CPU.init()
+
+let path = (if paramCount() > 0: paramStr(1) else: "./roms/BLINKY")
+machine.load_rom(path)
