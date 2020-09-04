@@ -22,3 +22,4 @@ type
             ## The RAM
         CPU*: CPU
             ## The CPU
+        stack*: array[16, uint16]

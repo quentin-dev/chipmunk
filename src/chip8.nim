@@ -24,14 +24,42 @@ proc decode*(c: var Chip8, opcode: uint16) =
     ## Decode given opcode
     
     case opcode and 0xF000:
+        of 0x0000:
+            case opcode:
+                of 0x00E0:
+                    error("NOT IMPLEMENTED - CLS")
+                of 0x00EE:
+                    c.CPU.sp -= 1
+                    c.CPU.pc = c.stack[c.CPU.sp]
+                    info("RET")
+                else:
+                    raise newException(OSError, fmt"Unhandled opcode {opcode:#X}")
         of 0x1000:
             c.CPU.pc = getNNN(opcode)
             info(fmt"JP {getNNN(opcode):#X}")
+        of 0x2000:
+            c.stack[c.CPU.sp] = c.CPU.pc
+            c.CPU.sp += 1
+            c.CPU.pc = getNNN(opcode)
+            info(fmt"CALL {getNNN(opcode):#X}")
+        of 0x3000:
+            if c.CPU.v[getX(opcode)] == getKK(opcode):
+                c.CPU.pc += 2
+            info(fmt"SE V[{getX(opcode):#X}], {getKK(opcode):#X}")
         of 0x6000:
             c.CPU.v[getX(opcode)] = getKK(opcode)
             info(fmt"LD V[{getX(opcode):#X}], {getKK(opcode):#X}")
+        of 0x7000:
+            c.CPU.v[getX(opcode)] = c.CPU.v[getX(opcode)] + getKK(opcode)
+            info(fmt"ADD V[{getX(opcode):#X}], {getKK(opcode):#X}")
         of 0x8000:
             case opcode and 0x000F:
+                of 0:
+                    c.CPU.v[getX(opcode)] = c.CPU.v[getY(opcode)]
+                    info(fmt"LD V[{getX(opcode):#X}], V[{getY(opcode):#X}]")
+                of 2:
+                    c.CPU.v[getX(opcode)] = (c.CPU.v[getX(opcode)] and c.CPU.v[getY(opcode)])
+                    info(fmt"AND V[{getX(opcode):#X}], V[{getY(opcode):#X}]")
                 of 3:
                     c.CPU.v[getX(opcode)] = c.CPU.v[getX(opcode)] xor c.CPU.v[getY(opcode)]
                     info(fmt"XOR V[{getX(opcode):#X}], V[{getY(opcode):#X}]")
