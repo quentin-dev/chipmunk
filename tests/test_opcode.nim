@@ -1,3 +1,4 @@
+## Opcode utilities tests
 import opcode, unittest
 
 suite "opcode util test suite":

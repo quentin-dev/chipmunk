@@ -2,7 +2,7 @@
 *.exe
 **/chipmunk
 **/test_chipmunk
-**/test_opcode
+**/test_chip8
 
 # Generated documentation
 *.html
