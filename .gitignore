@@ -1,6 +1,8 @@
 # Generated executables
 *.exe
 **/chipmunk
+**/test_chipmunk
+**/test_opcode
 
 # Generated documentation
 *.html
