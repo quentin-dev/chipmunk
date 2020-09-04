@@ -1,0 +1,9 @@
+image: 1.2.6-alpine-slim
+
+stages:
+    - test
+
+test_chipmunk:
+    stage: test
+    script:
+        - nimble test
