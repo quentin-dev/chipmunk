@@ -23,11 +23,11 @@ suite "chip8 decode test suite":
     test "Ox121A -> JP 0x21A":
         machine.decode(0x121A)
         check(machine.CPU.pc == 0x21A)
-    
+
     test "0x62F4 -> LD V[2], F4":
         machine.decode(0x62F4)
         check(machine.CPU.v[2] == 0xF4)
-    
+
     test "0x8233 -> XOR V[2], V[3]":
         machine.CPU.v[2] = 4
         machine.CPU.v[3] = 2
@@ -83,7 +83,7 @@ suite "chip8 decode test suite":
         machine.decode(0x00EE)
         check(machine.CPU.pc == 0x31)
         check(machine.CPU.sp == 0)
-    
+
     test "0x8022 -> AND V[0], V[2]":
         machine.CPU.v[0] = 3
         machine.CPU.v[2] = 2
@@ -96,16 +96,27 @@ suite "chip8 decode test suite":
         machine.decode(0x8020)
         check(machine.CPU.v[0] == 2)
 
-    test "0x8006 -> SHR V[0] {, V[0]} (even)":
-        machine.CPU.v[0] = 4
+    test "0x8006 -> SHR V[0] {, V[0]} (lsb == 0)":
+        machine.CPU.v[0] = 12
         machine.decode(0x8006)
         check(machine.CPU.v[0xF] == 0)
-        check(machine.CPU.v[0] == 2)
+        check(machine.CPU.v[0] == 6)
 
-    test "0x8006 -> SHR V[0] {, V[0]} (odd)":
-        machine.CPU.v[0] = 3
+    test "0x8006 -> SHR V[0] {, V[0]} (lsb == 1)":
+        machine.CPU.v[0] = 15
         machine.decode(0x8006)
         check(machine.CPU.v[0xF] == 1)
-        check(machine.CPU.v[0] == 1)
-    
+        check(machine.CPU.v[0] == 7)
+
+    test "0x810E -> SHL V[1] {, V[0]} (msb == 0)":
+        machine.CPU.v[1] = 32
+        machine.decode(0x810E)
+        check(machine.CPU.v[0xF] == 0)
+        check(machine.CPU.v[1] == 64)
+
+    test "0x810E -> SHL V[1] {, V[0]} (msb == 1)":
+        machine.CPU.v[1] = 0x80
+        machine.decode(0x810E)
+        check(machine.CPU.v[0xF] == 1)
+        check(machine.CPU.v[1] == 0)
 

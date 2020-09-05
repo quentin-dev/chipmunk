@@ -23,3 +23,4 @@ type
         CPU*: CPU
             ## The CPU
         stack*: array[16, uint16]
+            ## The stack

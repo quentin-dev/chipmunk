@@ -3,7 +3,7 @@ import os, streams, logging, strformat, datatypes, opcode
 
 proc init*(c: var Chip8) =
     ## Initialize the program counter
-    
+
     c.CPU.pc = 0x200
     info(fmt"Initialized CPU program counter to {c.CPU.pc:#X}")
 
@@ -22,7 +22,7 @@ proc load_rom*(c: var Chip8, path: string) =
 
 proc decode*(c: var Chip8, opcode: uint16) =
     ## Decode given opcode
-    
+
     case opcode and 0xF000:
         of 0x0000:
             case opcode:
@@ -63,6 +63,12 @@ proc decode*(c: var Chip8, opcode: uint16) =
                 of 3:
                     c.CPU.v[getX(opcode)] = c.CPU.v[getX(opcode)] xor c.CPU.v[getY(opcode)]
                     info(fmt"XOR V[{getX(opcode):#X}], V[{getY(opcode):#X}]")
+                of 6:
+                    c.CPU.v[0xF] = c.CPU.v[getX(opcode)] mod 2
+                    c.CPU.v[getX(opcode)] = c.CPU.v[getX(opcode)] shr 1
+                of 0xE:
+                    c.CPU.v[0xF] = (if (c.CPU.v[getX(opcode)] and 0x80) == 0x80: 1 else: 0)
+                    c.CPU.v[getX(opcode)] = c.CPU.v[getX(opcode)] shl 1
                 else:
                     raise newException(OSError, fmt"Unhandled opcode {opcode:#X}")
         of 0xA000:
