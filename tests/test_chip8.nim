@@ -95,3 +95,17 @@ suite "chip8 decode test suite":
         machine.CPU.v[2] = 2
         machine.decode(0x8020)
         check(machine.CPU.v[0] == 2)
+
+    test "0x8006 -> SHR V[0] {, V[0]} (even)":
+        machine.CPU.v[0] = 4
+        machine.decode(0x8006)
+        check(machine.CPU.v[0xF] == 0)
+        check(machine.CPU.v[0] == 2)
+
+    test "0x8006 -> SHR V[0] {, V[0]} (odd)":
+        machine.CPU.v[0] = 3
+        machine.decode(0x8006)
+        check(machine.CPU.v[0xF] == 1)
+        check(machine.CPU.v[0] == 1)
+    
+
