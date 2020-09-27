@@ -1,4 +1,4 @@
-import os, logging, src/chip8, src/datatypes
+import os, logging, src/chip8, src/datatypes, system
 
 when isMainModule:
 
@@ -9,7 +9,11 @@ when isMainModule:
 
     machine.init()
 
-    let path = (if paramCount() > 0: paramStr(1) else: "./roms/BLINKY")
+    if paramCount() == 0:
+        info("No path to rom given, exiting ...")
+        quit(1)
+
+    let path = paramStr(1)
     machine.load_rom(path)
 
     while true:
