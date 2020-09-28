@@ -74,6 +74,9 @@ proc decode*(c: var Chip8, opcode: uint16) =
         of 0xA000:
             c.CPU.i = getNNN(opcode)
             info(fmt"LD I, {getNNN(opcode):#X}")
+        of 0xD000:
+            info(fmt"DRW V[{getX(opcode):#X}], V[{getY(opcode):#X}], {getN(opcode):#X}")
+            raise newException(OSError, fmt"Unhandled opcode {opcode:#X}")
         of 0xF000:
             for i in uint8(0)..getX(opcode):
                 debug(fmt"Loading V[{i:#X}] = {c.CPU.v[i]:#X} into RAM @ {c.CPU.i + i:#X}")

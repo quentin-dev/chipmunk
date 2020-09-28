@@ -15,3 +15,7 @@ proc getKK*(opcode: uint16): uint8 {.inline.} =
 proc getNNN*(opcode: uint16): uint16 {.inline.} =
     ## Get NNN value from given opcode
     result = opcode and 0x0FFF
+
+proc getN*(opcode: uint16): uint8 {.inline.} =
+    ## Get N value from given opcode
+    result = uint8(opcode and 0x000F)

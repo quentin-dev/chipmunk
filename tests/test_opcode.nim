@@ -14,3 +14,6 @@ suite "opcode util test suite":
 
     test "getNNN test":
         check(getNNN(0xA489) == 0x489)
+
+    test "getN test":
+        check(getN(0xD432) == 0x2)
