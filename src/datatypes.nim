@@ -24,3 +24,5 @@ type
             ## The CPU
         stack*: array[16, uint16]
             ## The stack
+        display*: array[64 * 32, bool]
+            ## The display (should be 64 * 32 bits)
