@@ -9,6 +9,12 @@ suite "display util test suite":
         machine = Chip8()
         # No need for init here
 
+    test "simple bit to bool - true":
+        check(bool(1) == true)
+    
+    test "simple bit to bool - false":
+        check(bool(0) == false)
+
     test "drawAt test - empty previous pixel & new true":
         check(drawAt(machine, 0, 0, true) == false)
         check(machine.display[0] == true)
