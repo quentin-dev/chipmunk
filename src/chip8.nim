@@ -1,9 +1,10 @@
 ## Module for the general CHIP-8 implementation
-import os, streams, logging, strformat, datatypes, opcode
+import os, streams, logging, strformat, datatypes, opcode, display
 
 proc init*(c: var Chip8) =
     ## Initialize the program counter
 
+    loadSprites(c);
     c.CPU.pc = 0x200
     info(fmt"Initialized CPU program counter to {c.CPU.pc:#X}")
 

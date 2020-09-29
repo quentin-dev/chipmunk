@@ -5,6 +5,9 @@
 **/test_display
 **/test_opcode
 
+# Dumps
+*.dmp
+
 # Generated documentation
 *.html
 *.css

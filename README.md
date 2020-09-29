@@ -17,6 +17,12 @@ You can run `chipmunk` with:
 
 - `./chipmunk path/to/rom`
 
+### Development
+
+While developing you can easily run `chipmunk` while compiling with:
+
+- `nim c -r chipmunk.nim path/to/rom`
+
 ### Testing
 
 You can run the tests using nimble:
