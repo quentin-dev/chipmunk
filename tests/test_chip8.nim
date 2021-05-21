@@ -32,7 +32,7 @@ suite "chip8 decode test suite":
         machine.CPU.v[2] = 4
         machine.CPU.v[3] = 2
         machine.decode(0x8233)
-        check(machine.CPU.v[2] == (4 xor 2))
+        check(machine.CPU.v[2] == uint8(4 xor 2))
 
     test "0xAFF4 -> LD I, FF4":
         machine.decode(0xAFF4)
@@ -63,7 +63,7 @@ suite "chip8 decode test suite":
     test "0x7C4E -> ADD V[0xC], 0x4E":
         machine.CPU.v[0xC] = 0x3
         machine.decode(0x7C4E)
-        check(machine.CPU.v[0xC] == (0x3 + 0x4E))
+        check(machine.CPU.v[0xC] == uint8(0x3 + 0x4E))
 
     test "0x3E80 -> SE V[E], 0x80 (not equal)":
         let oldPC = machine.CPU.pc
@@ -88,7 +88,7 @@ suite "chip8 decode test suite":
         machine.CPU.v[0] = 3
         machine.CPU.v[2] = 2
         machine.decode(0x8022)
-        check(machine.CPU.v[0] == (2 and 3))
+        check(machine.CPU.v[0] == uint8(2 and 3))
 
     test "0x8020 -> LD V[0], V[2]":
         machine.CPU.v[0] = 3

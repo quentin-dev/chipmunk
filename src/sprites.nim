@@ -1,5 +1,7 @@
 ## Module for default sprites
 
+const SPRITE_BYTES* : int = 5
+
 const SPRITE_ZERO = [ uint8(0xF0), 0x90, 0x90, 0x90, 0xF0 ]
 ## Default "0" sprite
 
